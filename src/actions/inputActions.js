@@ -1,8 +1,8 @@
-import  * as types  from './types';
+import { ADD_TEXT, EDIT_TEXT, DELETE_TEXT } from './types'
 
 export function addText(textType, text) {
     return {
-        type: types.ADD_TEXT,
+        type: ADD_TEXT,
         text,
         textType
     }
@@ -10,22 +10,16 @@ export function addText(textType, text) {
 
 export function editText(textType, text) {
     return {
-        type: types.EDIT_TEXT,
+        type: EDIT_TEXT,
         text,
         textType
     }
 }
 
-export function deleteText(textType, text) {
+export function deleteText(textType, id) {
     return {
-        type: types.DELETE_TEXT,
-        text,
+        type: DELETE_TEXT,
+        id,
         textType
-    }
-}
-
-export function deleteInput() {
-    return {
-        type: types.DELETE_INPUT
     }
 }

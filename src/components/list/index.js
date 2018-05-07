@@ -1,48 +1,85 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ListItem from '../list-item';
-import EmptyInput from '../empty-input';
+import { createItem } from '../../utils';
+import { addText, editText, deleteText } from '../../actions/inputActions';
+
 import './index.css';
 
-export default class List extends React.PureComponent {
-   
-    static defaultProps = {
-        list: []
+const mapStateToProps = state => {
+  return {
+    store: state.inputReducer
+  }
+}
+
+const mapDespatchToProps = dispatch => {
+  return {
+    addToList: (textType, text) => {
+      dispatch(addText(textType, createItem(text)))
+    },
+    updateList: (textType, text) => {
+      dispatch(editText(textType, text))
+    },
+    deleteList: (textType, text) => {
+      dispatch(deleteText(textType, text))
+    }
+  }
+}
+
+class List extends React.PureComponent {
+
+    constructor(props) {
+      super(props);
+      const { addToList } = props;
+      if (props.type === 'PROS') {
+        addToList('PROS', '');
+      } else {
+        addToList('CONS', '');
+      }
+
     }
 
-    handleListChange = () => {
-        
+    onListItemChange = (item) => {
+        const textType = this.props.type;
+        let changedItem = this.props.store[textType];
+
+        if(!item.text) {
+            this.props.deleteList(textType, item.id);
+        } else {
+            this.props.updateList(textType, item);
+
+            if (item.id === changedItem[changedItem.length - 1].id && item.text !== '') {
+                this.props.addToList(textType, '');
+            }
+        }
     }
-   
+
     render() {
-        console.log(this.props, 'list')
-        const prosOrCons = this.props.store[this.props.name];
-
+        const prosOrCons = this.props.store[this.props.type];
         return (
-          <div>
+          <div className='container'>
             <ol>
                 {
-                  prosOrCons.map(listItem => (
+                  prosOrCons.map((listItem, index) => (
                      <ListItem
                       key={listItem.id}
-                      text={this.props.text}
-                      onInput={this.handleListChange}
+                      id={listItem.id}
+                      value={this.props.text}
+                      onChange={this.onListItemChange}
                      />
                   ))
                 }
-                {console.log(this.props, '09876')}
-               { prosOrCons &&
-                <EmptyInput
-                    focus={true}
-                    type={this.props.name}
-                    addText={this.props.addText}
-                />
-                 }
             </ol>
           </div>
         )
     }
 }
+
+
+const ListContainer = connect(mapStateToProps, mapDespatchToProps)(List);
+
+export default ListContainer;
 
 // List.propTypes = {
 //     ListItem: PropTypes.arrayOf(

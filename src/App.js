@@ -1,39 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Column from './components/column';
-import { addText, editText, deleteText, deleteInput } from './actions/inputActions';
 
 import './App.css';
 
 const columns = [ 'PROS', 'CONS' ];
 
-const mapStateToProps = state => {
-  console.log(state, 'state')
-  return {
-    store: state.inputReducer
-  }
-}
-
-const mapDespatchToProps = dispatch => {
-  return {
-    addText: (textType, text) => {
-      dispatch(addText(textType, text))
-    },
-    editText: (textType, text) => {
-      dispatch(addText(textType, text))
-    },
-    deleteText: (textType, text) => {
-      dispatch(addText(textType, text))
-    },
-    deleteInput: (textType, text) => {
-      dispatch(addText(textType, text))
-    }
-  }
-}
-
-class App extends Component {
+export default class App extends Component {
   render() {
-    console.log(this.props)
     return (
       <div className="App">
         <header className="App-header">
@@ -48,22 +21,12 @@ class App extends Component {
             return (
               <Column
                 key={index}
-                index={index}
-                name={column}
-                {...this.props}
+                type={column}
               />
           )})
-            
-            
           }
-         </div> 
+         </div>
       </div>
     );
   }
 }
-
-const AppContainer = connect(mapStateToProps, mapDespatchToProps)(App);
-
-export default AppContainer;
-
-

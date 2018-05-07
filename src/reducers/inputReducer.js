@@ -1,53 +1,45 @@
-import * as actions from '../actions/inputActions';
-import { ADD_TEXT, EDIT_TEXT, DELETE_TEXT, DELETE_INPUT } from '../actions/types';
+import { ADD_TEXT, EDIT_TEXT, DELETE_TEXT } from '../actions/types';
 
 const inputReducer = (state = {
     PROS: [],
-    CONS: [],
-    activeColumn: 'PROS' 
+    CONS: []
 }, action) => {
-    let textType = state.activeColumn;
-
-    if (action.textType === 'PROS') {
-        textType = state.activeColumn;
-    }
+    const { textType } = action;
 
     switch(action.type) {
         case ADD_TEXT: {
             return {
                 ...state,
-                activeColumn: action.textType,
-                [textType]: state[textType].concat(action.text)
+                [textType]: [...state[textType], action.text]
             }
         }
         case EDIT_TEXT: {
-            return {
-                ...state,
-                activeColumn: action.textType,
-                [textType]: state[textType].map((text, index) => {
-                    if (index === action.index) {
-                        return action.text;
-                    }
-                    return text;
-                })
-            }
+          let editedListItem = state[action.textType];
+
+          return {
+              ...state,
+              [textType]: editedListItem.map(item => {
+                      if(item.id === action.text.id) {
+                          return action.text;
+                      }
+                      return item;
+                  }
+              )
+          }
         }
         case DELETE_TEXT: {
+            let deletedListItem = state[textType];
+
+            let index = deletedListItem.findIndex(listItem =>
+                listItem.id === action.id
+            );
+
             return {
                 ...state,
-                activeColumn: action.textType,
-                [textType]: [
-                    ...state[textType].slice(0, action.index),
-                    ...state[textType].slice(action.index + 1, textType.length)    
-                ]
+                [textType]: [...deletedListItem.slice(0, index), ...deletedListItem.slice(index + 1, deletedListItem.length)]
             }
         }
-        case DELETE_INPUT: {
-            return {
-                ...state,
-                activeColumn: action.textType
-            }
-        }
+
         default: {
             return state;
         }
