@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ListItem from '../list-item';
 import EmptyInput from '../empty-input';
+import './index.css';
 
 export default class List extends React.PureComponent {
    

@@ -1,0 +1,12 @@
+input {
+    border: none;
+    background: inherit;
+    width: 85%;
+    padding: 7px;
+    font-size: 25px;
+}
+
+li {
+    height: 100%;
+    font-size: 25px;
+}

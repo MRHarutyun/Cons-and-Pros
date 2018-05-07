@@ -1,0 +1,8 @@
+.pros {
+    flex: 50%;
+    border-right: indigo solid 2px;
+}
+
+.cons {
+    flex: 50%;
+}
