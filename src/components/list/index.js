@@ -56,12 +56,12 @@ class List extends React.PureComponent {
     }
 
     render() {
-        const prosOrCons = this.props.store[this.props.type];
+        const prosorCons = this.props.store[this.props.type];
         return (
           <div className='container'>
             <ol>
                 {
-                  prosOrCons.map((listItem, index) => (
+                  prosorCons.map((listItem, index) => (
                      <ListItem
                       key={listItem.id}
                       id={listItem.id}
